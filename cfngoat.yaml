@@ -30,7 +30,7 @@ Resources:
   ####################
   EC2Instance:
     Type: AWS::EC2::Instance
-    Properties:
+    Properties: 
       AvailabilityZone:
         Fn::Select:
         - "0"
@@ -73,7 +73,7 @@ Resources:
   WebHostStorage:
     # Unencrypted Volume
     Type: AWS::EC2::Volume
-    Properties:
+    Properties: 
       AvailabilityZone:
         Fn::Select:
           - "0"
@@ -103,7 +103,7 @@ Resources:
   ### CFN Does not Support Volume Snapshot
   EBSAttachment:
     Type: AWS::EC2::VolumeAttachment
-    Properties:
+    Properties: 
       InstanceId: !Ref EC2Instance
       VolumeId: !Ref WebHostStorage
       Device: /dev/sdh
@@ -111,7 +111,7 @@ Resources:
   # Security Group  SSH port open to the world
   WebNodeSG:
     Type: AWS::EC2::SecurityGroup
-    Properties:
+    Properties: 
       GroupName: !Sub "${AWS::AccountId}-${CompanyName}-${Environment}-sg"
       GroupDescription: !Sub "${AWS::AccountId}-${CompanyName}-${Environment} Security Group"
       VpcId: !Ref WebVPC
@@ -147,7 +147,7 @@ Resources:
           Value: bridgecrewio
   WebVPC:
     Type: AWS::EC2::VPC
-    Properties:
+    Properties: 
       CidrBlock: 172.16.0.0/16
       EnableDnsSupport: True
       EnableDnsHostnames: True
@@ -172,7 +172,7 @@ Resources:
           Value: eeb90d09-d35e-440f-ac67-2f96e472b2e0
   WebSubnet:
     Type: AWS::EC2::Subnet
-    Properties:
+    Properties: 
       VpcId: !Ref WebVPC
       CidrBlock: 172.16.10.0/24
       AvailabilityZone:
@@ -201,7 +201,7 @@ Resources:
           Value: nimrodkor@gmail.com
   WebSubnet2:
     Type: AWS::EC2::Subnet
-    Properties:
+    Properties: 
       VpcId: !Ref WebVPC
       CidrBlock: 172.16.11.0/24
       AvailabilityZone:
@@ -230,7 +230,7 @@ Resources:
           Value: 42153ba22c28f5c0bff388b24a6344137a5dfe26
   WebIGW:
     Type: AWS::EC2::InternetGateway
-    Properties:
+    Properties: 
       Tags:
         - Key: Name
           Value: !Sub "${AWS::AccountId}-${CompanyName}-${Environment}-igw"
@@ -252,12 +252,12 @@ Resources:
           Value: jonathan.jozwiak@googlemail.com
   InternetGatewayAttachment:
     Type: AWS::EC2::VPCGatewayAttachment
-    Properties:
+    Properties: 
       InternetGatewayId: !Ref WebIGW
       VpcId: !Ref WebVPC
   WebRTB:
     Type: AWS::EC2::RouteTable
-    Properties:
+    Properties: 
       VpcId: !Ref WebVPC
       Tags:
         - Key: Name
@@ -280,7 +280,7 @@ Resources:
           Value: cfngoat.yaml
   WebDefaultPublicRoute:
     Type: AWS::EC2::Route
-    DependsOn:
+    DependsOn: 
     - InternetGatewayAttachment
     Properties:
       RouteTableId: !Ref WebRTB
@@ -288,17 +288,17 @@ Resources:
       GatewayId: !Ref WebIGW
   RTBAssoc:
     Type: AWS::EC2::SubnetRouteTableAssociation
-    Properties:
+    Properties: 
       SubnetId: !Ref WebSubnet
       RouteTableId: !Ref WebRTB
   RTBAssoc2:
     Type: AWS::EC2::SubnetRouteTableAssociation
-    Properties:
+    Properties: 
       SubnetId: !Ref WebSubnet2
       RouteTableId: !Ref WebRTB
   WebENI:
     Type: AWS::EC2::NetworkInterface
-    Properties:
+    Properties: 
       Description: A nice description.
       SubnetId: !Ref WebSubnet
       PrivateIpAddress: 172.16.10.100
@@ -323,7 +323,7 @@ Resources:
           Value: "2020-04-25 01:13:26"
   VpcFlowLogs:
     Type: AWS::EC2::FlowLog
-    Properties:
+    Properties: 
       ResourceId: !Ref WebVPC
       ResourceType: VPC
       LogDestination: !GetAtt FlowBucket.Arn
@@ -349,7 +349,7 @@ Resources:
   FlowBucket:
     Type: AWS::S3::Bucket
     DeletionPolicy: Delete
-    Properties:
+    Properties: 
       BucketName: !Sub "${AWS::AccountId}-${CompanyName}-${Environment}-flowlogs"
       Tags:
         - Key: Name
