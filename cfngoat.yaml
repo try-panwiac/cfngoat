@@ -1027,6 +1027,8 @@ Resources:
           Value: 11266986-850e-41eb-b980-7b4d8d49f919
         - Key: git_org
           Value: bridgecrewio
+      PublicAccessBlockConfiguration:
+        RestrictPublicBuckets: True
   LogsBucket:
     # not encrypted
     Type: AWS::S3::Bucket
